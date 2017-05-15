@@ -162,6 +162,7 @@ class Wmsclass
         return  $this->handel($reqs,$methodName,$resp);
     }
     //出库单同步
+    //说明下，文档虽然说有必要和非必要参数之分，但是对面的接口是所有参数要全部传过去，所以放了很多空字符串的参数。
     public function SaleOrderSynSrv($req,&$resp)
     {
         $this->log->debug("----------SaleOrderSynSrv start----------");
@@ -478,9 +479,6 @@ class Wmsclass
         } else {
             $strPOST = json_encode($param,JSON_UNESCAPED_UNICODE);
         }
-        echo $strPOST;
-        echo "<br>";
-        echo strlen($strPOST);
         curl_setopt($oCurl, CURLOPT_HTTPHEADER, array(                   
             'Content-Type: application/json', 
             'Expect:', //此配置可保curl数据超过1024字节
