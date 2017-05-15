@@ -1,0 +1,1 @@
+# wms.class.php
