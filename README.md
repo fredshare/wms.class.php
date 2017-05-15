@@ -1,7 +1,9 @@
 # wms.class.php
-//商品信息同步
+接口为测试接口
+
+    //商品信息同步
     function SkuDataSynSrv(){
-        require_once APPPATH."libraries/wms.class.php";
+        require_once "wms.class.php";
         $wms = new Wmsclass();
         $req = array(
                 array(
@@ -21,7 +23,7 @@
     }
 
     function CustDataSynSrv(){
-        require_once APPPATH."libraries/wms.class.php";
+        require_once "wms.class.php";
         $wms = new Wmsclass();
         $req = array(
             array(
@@ -44,7 +46,7 @@
     }
     //入库单同步
     function AsnOrderSynSrv(){
-        require_once APPPATH."libraries/wms.class.php";
+        require_once "wms.class.php";
         $wms = new Wmsclass();
         $req = array(
             "serials_id" => "20170515114534088889",               
@@ -69,7 +71,7 @@
     }
     //入库单查询
     function AsnOrderQuerySrv(){
-        require_once APPPATH."libraries/wms.class.php";
+        require_once "wms.class.php";
         $wms = new Wmsclass();
         $req = array(
             "serials_id" => "2017051511453408888"
@@ -81,7 +83,7 @@
     }
     //入口单取消
     function AsnOrderCancelSrv(){
-        require_once APPPATH."libraries/wms.class.php";
+        require_once "wms.class.php";
         $wms = new Wmsclass();
         $req = array(
             "serials_id" => "2017050911453498888",
@@ -97,7 +99,7 @@
     }
     //出库单取消
     function SaleOrderCancelSrv(){
-        require_once APPPATH."libraries/wms.class.php";
+        require_once "wms.class.php";
         $wms = new Wmsclass();
         $req = array(
             "serials_id" => "2017650912453498882",
@@ -116,7 +118,7 @@
     //出库单同步
     function SaleOrderSynSrv()
     {
-        require_once APPPATH."libraries/wms.class.php";
+        require_once "wms.class.php";
         $wms = new Wmsclass();
         $req = array(
             "serials_id" => "2017650912453498882",
@@ -144,7 +146,7 @@
     }
     //库存查询
     function WmsInvQrySrv(){
-        require_once APPPATH."libraries/wms.class.php";
+        require_once "wms.class.php";
         $wms = new Wmsclass();
         $req = array(
             "sku_id" => "34"
@@ -156,7 +158,7 @@
     }
     //库存冻结
     function InvHoldReleaseSrv(){
-        require_once APPPATH."libraries/wms.class.php";
+        require_once "wms.class.php";
         $wms = new Wmsclass();
         $req = array(
             "sku_id" => "34",
