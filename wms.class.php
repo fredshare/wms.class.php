@@ -165,22 +165,56 @@ class Wmsclass
         $reqs['reqBody'] = $reqBody;
         return  $this->handel($reqs,$methodName,$resp);
     }
+    //根据地址字符串，分割出省市信息
+    private function getAddressInfo($str)
+    {
+        preg_match("/(.*省|.*自治区)?(.*自治州|.*地区|.*盟|.*直辖|.*州|.*市)?/", $str,$address);
+        $province = $address[1];
+        $city = $address[2];
+        if(empty($province))
+        {
+            $citys = array('北京','上海','天津','重庆');
+            foreach ($citys as $key => $value) 
+            {
+                if(strstr($city,$value))
+                {
+                    $city = $value.'市';
+                    $province = $value;
+                }
+            }         
+        }
+        return array(
+            'province' => $province,
+            'city' => $city
+            );
+    }
     //出库单同步
     public function SaleOrderSynSrv($req,&$resp)
     {
         $this->log->debug('----------SaleOrderSynSrv start----------');
         $reqs = $this->reqModel;
+        //city和province的处理
+        $address = array();
+        $city = '';
+        $province = '';
+        if(!empty($req['consignee_address']))
+        {
+            $address = $this->getAddressInfo($req['consignee_address']);
+            $province = $address['province'];
+            $city = $address['city'];
+        }      
         $methodName = __FUNCTION__;
         $reqs['reqMethod'] = $methodName;
         //获取参数
         $reqBody = array(
+            'CHANNEL' => $province == '广东省' ? 1 : 9,//省外邮件传9；省内邮件传1
             'CUSTOMERID' => self::CUSTOMERID,
             'WAREHOUSEID' => self::WAREHOUSEID,
             'ORDERNO' => $req['serials_id'],
             'ORDERTYPE' => !empty($req['type']) ? $req['type'] : 'XSDD', //销售订单:XSDD 转移出库:ZYCK
             'ORDERTIME' => date('Y-m-d h:i:s'), //订单时间
             'CONSIGNEEID' => $req['user_id'],
-            'c_CITY' => '',
+            'c_CITY' => $city,
             'CONSIGNEENAME' => $req['consignee_name'],
             'c_CONTACT' => $req['consignee_name'],
             'c_ADDRESS1' => $req['consignee_address'],
@@ -195,10 +229,10 @@ class Wmsclass
             'SOREFERENCE2' => $req['user_id'],
             'SOREFERENCE3' => $req['deal_id'],
             'SOREFERENCE4' => '',
-            'SOREFERENCE5' => '',
+            'SOREFERENCE5' => $req['deal_id'],
             'PRIORITY' => '',
             'NOTES' => '',
-            'c_PROVINCE' => '',
+            'c_PROVINCE' => $province,
             'c_COUNTRY' => '',
             'c_ZIP' => '',
             'c_ADDRESS2' => '',
